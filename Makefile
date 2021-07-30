@@ -53,3 +53,8 @@ pypi_test:
 
 pypi:
 	@twine upload dist/* -u $(PYPI_USERNAME)
+streamlit:
+	-@streamlit run app.py
+
+run_api:
+	uvicorn app:api --reload  

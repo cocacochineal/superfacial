@@ -1,19 +1,15 @@
 import streamlit as st
+import requests
+import json
+from PIL import Image
 
-st.markdown("""# This is a header
-## This is a sub header
-This is text""")
-df = pd.DataFrame({
-          'first column': list(range(1, 11)),
-          'second column': np.arange(10, 101, 10)
-        })
+uploaded_file = st.file_uploader("Choose an image file")
 
-# this slider allows the user to select a number of lines
-# to display in the dataframe
-# the selected value is returned by st.slider
-line_count = st.slider('Select a line count', 1, 10, 3)
-
-# and used in order to select the displayed lines
-head_df = df.head(line_count)
-
-head_df
+if uploaded_file is not None:
+    image = uploaded_file.read()
+    st.image(Image.open(uploaded_file))
+    params = {'image': image}
+    url='http://127.0.0.1:8000/image'
+    # make sure requests is using the correct method: post or get
+    prediction = requests.post(url, files=params)
+    st.write(prediction.text)
