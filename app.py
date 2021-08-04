@@ -13,7 +13,7 @@ with st.form("my_form"):
     c1=[]
     c2=[]
     c3=[]
-    for i in range(1, 55):
+    for i in range(1, 54):
         if(i%3==0):
             c1.append(i-2)
             c2.append(i-1)
