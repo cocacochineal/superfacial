@@ -3,37 +3,52 @@ import numpy as np
 import app2
 import requests
 import json
+
 from PIL import Image, ImageDraw
     
 
 with st.form("my_form"):
     col1, col2, col3= st.beta_columns(3)
-    options=np.zeros(5)
+    options=np.zeros(51)
+    c1=[]
+    c2=[]
+    c3=[]
+    for i in range(1, 54):
+        if(i%3==0):
+            c1.append(i-2)
+            c2.append(i-1)
+            c3.append(i)
     with col1:
-        st.image(Image.open('/Users/shan/code/shan-gao-qd/superfacial/raw_data/1.jpg'), width=200)
-        options[0]=st.checkbox('Like?1')
-        st.image(Image.open('/Users/shan/code/shan-gao-qd/superfacial/raw_data/6.jpg'), width=200)
-        options[3] = st.checkbox('Like?4')
+        for i in c1:
+            st.image(Image.open(f'/Users/shan/Desktop/interface_face/{i}.jpg'), width=200)
+            options[i-1]=st.checkbox(f'Like?{i}')
     with col2:
-        st.image(Image.open('/Users/shan/code/shan-gao-qd/superfacial/raw_data/2.jpg'), width=200)
-        options[1] = st.checkbox('Like?2')  
-        st.image(Image.open('/Users/shan/code/shan-gao-qd/superfacial/raw_data/7.jpg'), width=200)
-        options[4] = st.checkbox('Like?5')
+        for i in c2:
+            st.image(Image.open(f'/Users/shan/Desktop/interface_face/{i}.jpg'), width=200)
+            options[i-1]=st.checkbox(f'Like?{i}')
     with col3:
-        st.image(Image.open('/Users/shan/code/shan-gao-qd/superfacial/raw_data/3.jpg'), width=200)
-        options[2] = st.checkbox('Like?3')
+        for i in c3:
+            st.image(Image.open(f'/Users/shan/Desktop/interface_face/{i}.jpg'), width=200)
+            options[i-1]=st.checkbox(f'Like?{i}')
         
     submitted = st.form_submit_button("Submit")
 
 if submitted:
-    st.write('submitted')
+    # prediction = requests.post(url, files=params).json()
+    st.write(options)
+    params={'options_': options}
+    url='https://superfacial-api.herokuapp.com/form'
+    form_submit= requests.post(url, data=params).json()   
+    st.write(form_submit)
+
 uploaded_file = st.file_uploader("Choose an image file")
 if uploaded_file is not None:
     image = uploaded_file.read()
     params = {'image': image}
-    url='http://127.0.0.1:8000/image'
+    url='https://superfacial-api.herokuapp.com/image/'
     # make sure requests is using the correct method: post or get
-    prediction = requests.post(url, files=params).json()       
+    prediction = requests.post(url, files=params).json()      
+    #st.write(prediction) 
     pil_image=Image.open(uploaded_file)
     d = ImageDraw.Draw(pil_image)
     results=prediction[0]
@@ -41,12 +56,12 @@ if uploaded_file is not None:
     i=0
     for i in range(0,len(face_landmarks_list)):
         result =results[i]
-        if result==0:
+        if result>0.6:
             color='red'
-            txt='not match'
+            txt=f"{result}"
         else:
             color='green'
-            txt='match'
+            txt=f"{result}"
         osd = Image.new("RGB", (100,25), color)
         dctx = ImageDraw.Draw(osd)  # create drawing context
         dctx.text((5, 5), txt,  fill="black") 
