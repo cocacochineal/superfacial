@@ -20,15 +20,15 @@ with st.form("my_form"):
             c3.append(i)
     with col1:
         for i in c1:
-            st.image(Image.open(f'/Users/shan/Desktop/interface_face/{i}.jpg'), width=200)
+            st.image(Image.open(f'pics/interface_face/{i}.jpg'), width=200)
             options[i-1]=st.checkbox(f'Like?{i}')
     with col2:
         for i in c2:
-            st.image(Image.open(f'/Users/shan/Desktop/interface_face/{i}.jpg'), width=200)
+            st.image(Image.open(f'pics/interface_face/{i}.jpg'), width=200)
             options[i-1]=st.checkbox(f'Like?{i}')
     with col3:
         for i in c3:
-            st.image(Image.open(f'/Users/shan/Desktop/interface_face/{i}.jpg'), width=200)
+            st.image(Image.open(f'pics/interface_face/{i}.jpg'), width=200)
             options[i-1]=st.checkbox(f'Like?{i}')
         
     submitted = st.form_submit_button("Submit")
