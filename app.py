@@ -9,11 +9,11 @@ from PIL import Image, ImageDraw
 
 with st.form("my_form"):
     col1, col2, col3= st.beta_columns(3)
-    options=np.zeros(51)
+    options=np.zeros(52)
     c1=[]
     c2=[]
     c3=[]
-    for i in range(1, 54):
+    for i in range(1, 55):
         if(i%3==0):
             c1.append(i-2)
             c2.append(i-1)
