@@ -40,8 +40,8 @@ if submitted:
     #st.write(options)
     params={'options_': list(options)}
     #params=json.dumps({'options_': list(options)})
-    #url='https://superfacial-api.herokuapp.com/form'
-    url = 'http://localhost:8005/form'
+    url='https://superfacial-api.herokuapp.com/form/'
+    #url = 'http://localhost:8005/form'
     #st.write(requests.get(url))
     form_submit= requests.post(url, data=params).json()
     #st.write(form_submit)
@@ -49,8 +49,8 @@ if submitted:
 
 if st.button('Your Le Wagon Match'):
         st.balloons()
-        url = 'http://localhost:8005/wagon'
-        #url='https://superfacial-api.herokuapp.com/image/'
+        #url = 'http://localhost:8005/wagon'
+        url='https://superfacial-api.herokuapp.com/wagon/'
         # make sure requests is using the correct method: post or get
         prediction = requests.get(url).json()      
         #st.write(prediction) 
@@ -93,8 +93,8 @@ uploaded_file = st.file_uploader("Choose an image file")
 if uploaded_file is not None:
     image = uploaded_file.read()
     params = {'image': image}
-    url = 'http://localhost:8005/image'
-    #url='https://superfacial-api.herokuapp.com/image/'
+    #url = 'http://localhost:8005/image'
+    url='https://superfacial-api.herokuapp.com/image/'
     # make sure requests is using the correct method: post or get
     prediction = requests.post(url, files=params).json()      
     #st.write(prediction) 
