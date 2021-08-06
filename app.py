@@ -61,19 +61,24 @@ if st.button('Your Le Wagon Match'):
         face_landmarks_list = prediction[1]
         print(results)
         print(face_landmarks_list)
+        first_in=results.index(sorted(results)[-1])
         i=0
-        max_in=results.index(max(results))
+        snd_in=results.index(sorted(results)[-2])
+        third_in=results.index(sorted(results)[-3])
         for i in range(0,len(face_landmarks_list)):
             result =results[i]
-            if i==max_in:
+            if i==first_in:
                 color='green'
-                txt=f"FIRST MATCH!"
-            elif result>0.1:
+                txt="#1 MATCH!"
+            elif i==snd_in:
                 color='green'
-                txt=f"{result}"
+                txt="#2 MATCH"
+            elif i==third_in:
+                color='green'
+                txt="#3 MATCH"
             else:
                 color='red'
-                txt=f"{result}"
+                txt="not match..."
             osd = Image.new("RGB", (100,25), color)
             dctx = ImageDraw.Draw(osd)  # create drawing context
             dctx.text((5, 5), txt,  fill="black") 
@@ -111,7 +116,7 @@ if uploaded_file is not None:
     third_in=results.index(sorted(results)[-3])
     for i in range(0,len(face_landmarks_list)):
         result =results[i]
-        if i==max_in:
+        if i==first_in:
             color='green'
             txt="#1 MATCH!"
         elif i==snd_in:
@@ -122,7 +127,7 @@ if uploaded_file is not None:
             txt="#3 MATCH"
         else:
             color='red'
-            txt=f"{result}"
+            txt="not match..."
         osd = Image.new("RGB", (100,25), color)
         dctx = ImageDraw.Draw(osd)  # create drawing context
         dctx.text((10, 5), txt,  fill="black") 
