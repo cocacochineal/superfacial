@@ -63,149 +63,149 @@ if submitted:
     #st.write(form_submit)
     st.title('Now, you match...')
 
-    if st.button('Your Le Wagon Match'):
-            
-            #url = 'http://localhost:8005/wagon'
-            url='http://139.198.164.210:5000/wagon/'
-            # make sure requests is using the correct method: post or get
-            prediction = requests.get(url).json()      
-            #st.write(prediction) 
-            pil_image=Image.open('wagon.jpeg')
-            d = ImageDraw.Draw(pil_image)
-            #st.write(prediction)
-            results=prediction[0]
-            face_landmarks_list = prediction[1]
-            print(results)
-            print(face_landmarks_list)
-            first_in=results.index(sorted(results)[-1])
-            i=0
-            snd_in=results.index(sorted(results)[-2])
-            third_in=results.index(sorted(results)[-3])
-            for i in range(0,len(face_landmarks_list)):
-                result =results[i]
-                if i==first_in:
-                    color='green'
-                    txt="#1 MATCH!"
-                elif i==snd_in:
-                    color='green'
-                    txt="#2 MATCH"
-                elif i==third_in:
-                    color='green'
-                    txt="#3 MATCH"
-                else:
-                    color='red'
-                    txt="not match..."
-                osd = Image.new("RGB", (130,35), color)
-                font = ImageFont.truetype(r'arial.ttf', 20) 
-                dctx = ImageDraw.Draw(osd)  # create drawing context
-                dctx.text((10, 10), txt,  fill="black", font=font) 
-                x=face_landmarks_list[i]['left_eyebrow'] 
-                (a,b)=[sum(y) / len(y) for y in zip(*x)]
-                a=int(a)
-                b=int(b)-35
-                pil_image.paste(
-                osd,
-                box=(a, b, osd.size[0] + a, osd.size[1] + b),
-                mask=Image.new("L", osd.size, 192))
-                i+=1
-            st.image(pil_image)
-            st.balloons()
+if st.button('Your Le Wagon Match'):
         
+    #url = 'http://localhost:8005/wagon'
+    url='http://139.198.164.210:5000/wagon/'
+    # make sure requests is using the correct method: post or get
+    prediction = requests.get(url).json()      
+    #st.write(prediction) 
+    pil_image=Image.open('wagon.jpeg')
+    d = ImageDraw.Draw(pil_image)
+    #st.write(prediction)
+    results=prediction[0]
+    face_landmarks_list = prediction[1]
+    print(results)
+    print(face_landmarks_list)
+    first_in=results.index(sorted(results)[-1])
+    i=0
+    snd_in=results.index(sorted(results)[-2])
+    third_in=results.index(sorted(results)[-3])
+    for i in range(0,len(face_landmarks_list)):
+        result =results[i]
+        if i==first_in:
+            color='green'
+            txt="#1 MATCH!"
+        elif i==snd_in:
+            color='green'
+            txt="#2 MATCH"
+        elif i==third_in:
+            color='green'
+            txt="#3 MATCH"
+        else:
+            color='red'
+            txt="not match..."
+        osd = Image.new("RGB", (130,35), color)
+        font = ImageFont.truetype(r'arial.ttf', 20) 
+        dctx = ImageDraw.Draw(osd)  # create drawing context
+        dctx.text((10, 10), txt,  fill="black", font=font) 
+        x=face_landmarks_list[i]['left_eyebrow'] 
+        (a,b)=[sum(y) / len(y) for y in zip(*x)]
+        a=int(a)
+        b=int(b)-35
+        pil_image.paste(
+        osd,
+        box=(a, b, osd.size[0] + a, osd.size[1] + b),
+        mask=Image.new("L", osd.size, 192))
+        i+=1
+    st.image(pil_image)
+    st.balloons()
+    
 
-    uploaded_file = st.file_uploader("Predict on your own chosen image")
-    if uploaded_file is not None:
-        image = uploaded_file.read()
-        params = {'image': image}
-        #url = 'http://localhost:8005/image'
-        url='http://139.198.164.210:5000/image/'
-        # make sure requests is using the correct method: post or get
-        prediction = requests.post(url, files=params).json()      
-        #st.write(prediction) 
-        pil_image=Image.open(uploaded_file)
-        d = ImageDraw.Draw(pil_image)
-        #st.write(prediction)
-        results=prediction[0]
-        face_landmarks_list = prediction[1]
-        print(results)
-        print(face_landmarks_list)
-        i=0
-        if len(results)==1:
-            if results[0]>=0.5:
+uploaded_file = st.file_uploader("Predict on your own chosen image")
+if uploaded_file is not None:
+    image = uploaded_file.read()
+    params = {'image': image}
+    #url = 'http://localhost:8005/image'
+    url='http://139.198.164.210:5000/image/'
+    # make sure requests is using the correct method: post or get
+    prediction = requests.post(url, files=params).json()      
+    #st.write(prediction) 
+    pil_image=Image.open(uploaded_file)
+    d = ImageDraw.Draw(pil_image)
+    #st.write(prediction)
+    results=prediction[0]
+    face_landmarks_list = prediction[1]
+    print(results)
+    print(face_landmarks_list)
+    i=0
+    if len(results)==1:
+        if results[0]>=0.5:
+            color='green'
+            txt="MATCH!"
+        else:
+            color='red'
+            txt="not match..."
+        osd = Image.new("RGB", (130,35), color)
+        font = ImageFont.truetype(r'arial.ttf', 20) 
+        dctx = ImageDraw.Draw(osd)  # create drawing context
+        dctx.text((10, 5), txt,  fill="black", font=font) 
+        x=face_landmarks_list[i]['left_eyebrow'] 
+        (a,b)=[sum(y) / len(y) for y in zip(*x)]
+        a=int(a)
+        b=int(b)-35
+        pil_image.paste(
+        osd,
+        box=(a, b, osd.size[0] + a, osd.size[1] + b),
+        mask=Image.new("L", osd.size, 192))
+    elif len(results)<5:
+        first_in=results.index(sorted(results)[-1])
+        for i in range(0,len(face_landmarks_list)):
+            result =results[i]
+            if i==first_in:
                 color='green'
-                txt="MATCH!"
+                txt="#1 MATCH!"
+            elif results>=0.5:
+                color='green'
+                txt="MATCH"
             else:
                 color='red'
                 txt="not match..."
-            osd = Image.new("RGB", (130,35), color)
+            osd = Image.new("RGB", (100,25), color)
             font = ImageFont.truetype(r'arial.ttf', 20) 
             dctx = ImageDraw.Draw(osd)  # create drawing context
             dctx.text((10, 5), txt,  fill="black", font=font) 
             x=face_landmarks_list[i]['left_eyebrow'] 
             (a,b)=[sum(y) / len(y) for y in zip(*x)]
             a=int(a)
-            b=int(b)-35
+            b=int(b)-25
             pil_image.paste(
             osd,
             box=(a, b, osd.size[0] + a, osd.size[1] + b),
             mask=Image.new("L", osd.size, 192))
-        elif len(results)<5:
-            first_in=results.index(sorted(results)[-1])
-            for i in range(0,len(face_landmarks_list)):
-                result =results[i]
-                if i==first_in:
-                    color='green'
-                    txt="#1 MATCH!"
-                elif results>=0.5:
-                    color='green'
-                    txt="MATCH"
-                else:
-                    color='red'
-                    txt="not match..."
-                osd = Image.new("RGB", (100,25), color)
-                font = ImageFont.truetype(r'arial.ttf', 20) 
-                dctx = ImageDraw.Draw(osd)  # create drawing context
-                dctx.text((10, 5), txt,  fill="black", font=font) 
-                x=face_landmarks_list[i]['left_eyebrow'] 
-                (a,b)=[sum(y) / len(y) for y in zip(*x)]
-                a=int(a)
-                b=int(b)-25
-                pil_image.paste(
-                osd,
-                box=(a, b, osd.size[0] + a, osd.size[1] + b),
-                mask=Image.new("L", osd.size, 192))
-                i+=1
-        else:             
-            first_in=results.index(sorted(results)[-1])
-            snd_in=results.index(sorted(results)[-2])
-            third_in=results.index(sorted(results)[-3])
-            for i in range(0,len(face_landmarks_list)):
-                result =results[i]
-                if i==first_in:
-                    color='green'
-                    txt="#1 MATCH!"
-                elif i==snd_in:
-                    color='green'
-                    txt="#2 MATCH"
-                elif i==third_in:
-                    color='green'
-                    txt="#3 MATCH"
-                else:
-                    color='red'
-                    txt="not match..."
-                osd = Image.new("RGB", (100,25), color)
-                dctx = ImageDraw.Draw(osd)  # create drawing context
-                font = ImageFont.truetype(r'arial.ttf', 20) 
-                dctx.text((10, 5), txt,  fill="black", font=font) 
-                x=face_landmarks_list[i]['left_eyebrow'] 
-                (a,b)=[sum(y) / len(y) for y in zip(*x)]
-                a=int(a)
-                b=int(b)-25
-                pil_image.paste(
-                osd,
-                box=(a, b, osd.size[0] + a, osd.size[1] + b),
-                mask=Image.new("L", osd.size, 192))
-                i+=1
-        st.image(pil_image)
-        
-    # else:
-    #     st.write('Goodbye')    
+            i+=1
+    else:             
+        first_in=results.index(sorted(results)[-1])
+        snd_in=results.index(sorted(results)[-2])
+        third_in=results.index(sorted(results)[-3])
+        for i in range(0,len(face_landmarks_list)):
+            result =results[i]
+            if i==first_in:
+                color='green'
+                txt="#1 MATCH!"
+            elif i==snd_in:
+                color='green'
+                txt="#2 MATCH"
+            elif i==third_in:
+                color='green'
+                txt="#3 MATCH"
+            else:
+                color='red'
+                txt="not match..."
+            osd = Image.new("RGB", (100,25), color)
+            dctx = ImageDraw.Draw(osd)  # create drawing context
+            font = ImageFont.truetype(r'arial.ttf', 20) 
+            dctx.text((10, 5), txt,  fill="black", font=font) 
+            x=face_landmarks_list[i]['left_eyebrow'] 
+            (a,b)=[sum(y) / len(y) for y in zip(*x)]
+            a=int(a)
+            b=int(b)-25
+            pil_image.paste(
+            osd,
+            box=(a, b, osd.size[0] + a, osd.size[1] + b),
+            mask=Image.new("L", osd.size, 192))
+            i+=1
+    st.image(pil_image)
+    
+# else:
+#     st.write('Goodbye')    
