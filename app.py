@@ -106,21 +106,26 @@ if uploaded_file is not None:
     print(results)
     print(face_landmarks_list)
     i=0
-    max_in=results.index(max(results))
+    first_in=results.index(sorted(results)[-1])
+    snd_in=results.index(sorted(results)[-2])
+    third_in=results.index(sorted(results)[-3])
     for i in range(0,len(face_landmarks_list)):
         result =results[i]
         if i==max_in:
             color='green'
-            txt=f"FIRST MATCH!"
-        elif result>0.1:
+            txt="#1 MATCH!"
+        elif i==snd_in:
             color='green'
-            txt=f"{result}"
+            txt="#2 MATCH"
+        elif i==third_in:
+            color='green'
+            txt="#3 MATCH"
         else:
             color='red'
             txt=f"{result}"
         osd = Image.new("RGB", (100,25), color)
         dctx = ImageDraw.Draw(osd)  # create drawing context
-        dctx.text((5, 5), txt,  fill="black") 
+        dctx.text((10, 5), txt,  fill="black") 
         x=face_landmarks_list[i]['left_eyebrow'] 
         (a,b)=[sum(y) / len(y) for y in zip(*x)]
         a=int(a)
