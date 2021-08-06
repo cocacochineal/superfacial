@@ -4,7 +4,7 @@ import app2
 import requests
 import json
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
     
 st.markdown('# Choose 10 faces you like (please be **superfacial**!) :heart_eyes:')
 with st.form("my_form"):
