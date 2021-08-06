@@ -97,7 +97,7 @@ if st.button('Your Le Wagon Match'):
                 txt="not match..."
             osd = Image.new("RGB", (100,25), color)
             dctx = ImageDraw.Draw(osd)  # create drawing context
-            dctx.text((5, 5), txt,  fill="black") 
+            dctx.text((10, 10), txt,  fill="black") 
             x=face_landmarks_list[i]['left_eyebrow'] 
             (a,b)=[sum(y) / len(y) for y in zip(*x)]
             a=int(a)
