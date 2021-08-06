@@ -9,45 +9,45 @@ from PIL import Image, ImageDraw, ImageFont
 st.markdown('# Choose 10 faces you like (please be **superfacial**!) :heart_eyes:')
 with st.form("my_form"):
     
-    col1, col2, col3, col4= st.beta_columns(4)
+    col1, col2, col3, = st.beta_columns(3)
     options=np.zeros(52)
     c1=[]
     c2=[]
     c3=[]
-    c4=[]
+    
     for i in range(1, 52):
-        if(i%4==0):
-            c1.append(i-3)
-            c2.append(i-2)
-            c3.append(i-1)
-            c4.append(i)
-    for i in range(1, 13):
-        # if(i%4==0):
-        #     c1.append(i-3)
-        #     c2.append(i-2)
-        #     c3.append(i-1)
-        #     c4.append(i)
-    #c2.append(52)
-        with col1:
-            #for i in c1:
-            st.image(Image.open(f'pics/interface_face/{c1[i-1]}.jpg'), width=150)
-            options[i-1]=st.checkbox(f'Like?', key=f"{c1[i-1]}")
-        with col2:
-            #for i in c2:
-            st.image(Image.open(f'pics/interface_face/{c2[i-1]}.jpg'), width=150)
-            options[i-1]=st.checkbox(f'Like?', key=f"{c2[i-2]}")
-        with col3:
-            #for i in c3:
-            st.image(Image.open(f'pics/interface_face/{c3[i-1]}.jpg'), width=150)
-            options[i-1]=st.checkbox(f'Like?', key=f"{c3[i-3]}")
-        with col4:
-            # for i in c4:
-            st.image(Image.open(f'pics/interface_face/{c4[i-1]}.jpg'), width=150)
-            options[i-1]=st.checkbox(f'Like?', key=f"{c4[i-4]}")
+        if(i%3==0):
+            c1.append(i-2)
+            c2.append(i-1)
+            c3.append(i)
+            # c4.append(i)
+    # for i in range(1, 13):
+    #     # if(i%4==0):
+    #     #     c1.append(i-3)
+    #     #     c2.append(i-2)
+    #     #     c3.append(i-1)
+    #     #     c4.append(i)
+    c3.append(52)
+    with col1:
+        for i in c1:
+            st.image(Image.open(f'pics/interface_face/{i}.jpg'), width=150)
+            options[i-1]=st.checkbox(f'Like?', key=f"{i}")
     with col2:
-            # for i in c4:
-            st.image(Image.open(f'pics/interface_face/52.jpg'), width=150)
-            options[i-1]=st.checkbox(f'Like?', key="52")
+        for i in c2:
+            st.image(Image.open(f'pics/interface_face/{i}.jpg'), width=150)
+            options[i-1]=st.checkbox(f'Like?', key=f"{i}")
+    with col3:
+        for i in c3:
+            st.image(Image.open(f'pics/interface_face/{i}.jpg'), width=150)
+            options[i-1]=st.checkbox(f'Like?', key=f"{i}")
+        # with col4:
+        #     # for i in c4:
+        #     st.image(Image.open(f'pics/interface_face/{c4[i-1]}.jpg'), width=150)
+        #     options[i-1]=st.checkbox(f'Like?', key=f"{c4[i-4]}")
+    # with col2:
+    #         # for i in c4:
+    #         st.image(Image.open(f'pics/interface_face/52.jpg'), width=150)
+    #         options[i-1]=st.checkbox(f'Like?', key="52")
         
     submitted = st.form_submit_button("Submit")
 
