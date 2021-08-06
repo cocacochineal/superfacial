@@ -95,14 +95,14 @@ if st.button('Your Le Wagon Match'):
             else:
                 color='red'
                 txt="not match..."
-            osd = Image.new("RGB", (100,25), color)
+            osd = Image.new("RGB", (130,35), color)
             font = ImageFont.truetype(r'arial.ttf', 20) 
             dctx = ImageDraw.Draw(osd)  # create drawing context
             dctx.text((10, 10), txt,  fill="black", font=font) 
             x=face_landmarks_list[i]['left_eyebrow'] 
             (a,b)=[sum(y) / len(y) for y in zip(*x)]
             a=int(a)
-            b=int(b)-25
+            b=int(b)-35
             pil_image.paste(
             osd,
             box=(a, b, osd.size[0] + a, osd.size[1] + b),
@@ -136,13 +136,14 @@ if uploaded_file is not None:
         else:
             color='red'
             txt="not match..."
-        osd = Image.new("RGB", (100,25), color)
+        osd = Image.new("RGB", (130,35), color)
+        font = ImageFont.truetype(r'arial.ttf', 20) 
         dctx = ImageDraw.Draw(osd)  # create drawing context
-        dctx.text((10, 5), txt,  fill="black") 
+        dctx.text((10, 5), txt,  fill="black", font=font) 
         x=face_landmarks_list[i]['left_eyebrow'] 
         (a,b)=[sum(y) / len(y) for y in zip(*x)]
         a=int(a)
-        b=int(b)-25
+        b=int(b)-35
         pil_image.paste(
         osd,
         box=(a, b, osd.size[0] + a, osd.size[1] + b),
@@ -161,8 +162,9 @@ if uploaded_file is not None:
                 color='red'
                 txt="not match..."
             osd = Image.new("RGB", (100,25), color)
+            font = ImageFont.truetype(r'arial.ttf', 20) 
             dctx = ImageDraw.Draw(osd)  # create drawing context
-            dctx.text((10, 5), txt,  fill="black") 
+            dctx.text((10, 5), txt,  fill="black", font=font) 
             x=face_landmarks_list[i]['left_eyebrow'] 
             (a,b)=[sum(y) / len(y) for y in zip(*x)]
             a=int(a)
@@ -192,7 +194,8 @@ if uploaded_file is not None:
                 txt="not match..."
             osd = Image.new("RGB", (100,25), color)
             dctx = ImageDraw.Draw(osd)  # create drawing context
-            dctx.text((10, 5), txt,  fill="black") 
+            font = ImageFont.truetype(r'arial.ttf', 20) 
+            dctx.text((10, 5), txt,  fill="black", font=font) 
             x=face_landmarks_list[i]['left_eyebrow'] 
             (a,b)=[sum(y) / len(y) for y in zip(*x)]
             a=int(a)
