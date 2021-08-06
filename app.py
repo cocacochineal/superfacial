@@ -9,29 +9,45 @@ from PIL import Image, ImageDraw
 st.markdown('# Choose 10 faces you like (please be **superfacial**!) :heart_eyes:')
 with st.form("my_form"):
     
-    col1, col2, col3= st.beta_columns(3)
+    col1, col2, col3, col4= st.beta_columns(4)
     options=np.zeros(52)
     c1=[]
     c2=[]
     c3=[]
-    for i in range(1, 54):
-        if(i%3==0):
-            c1.append(i-2)
-            c2.append(i-1)
-            c3.append(i)
-    c3.append(52)
-    with col1:
-        for i in c1:
-            st.image(Image.open(f'pics/interface_face/{i}.jpg'), width=200)
-            options[i-1]=st.checkbox(f'Like?', key=f"{i}")
+    c4=[]
+    for i in range(1, 52):
+        if(i%4==0):
+            c1.append(i-3)
+            c2.append(i-2)
+            c3.append(i-1)
+            c4.append(i)
+    for i in range(1, 13):
+        # if(i%4==0):
+        #     c1.append(i-3)
+        #     c2.append(i-2)
+        #     c3.append(i-1)
+        #     c4.append(i)
+    #c2.append(52)
+        with col1:
+            #for i in c1:
+            st.image(Image.open(f'pics/interface_face/{c1[i-1]}.jpg'), width=150)
+            options[i-1]=st.checkbox(f'Like?', key=f"{c1[i-1]}")
+        with col2:
+            #for i in c2:
+            st.image(Image.open(f'pics/interface_face/{c2[i-1]}.jpg'), width=150)
+            options[i-1]=st.checkbox(f'Like?', key=f"{c2[i-2]}")
+        with col3:
+            #for i in c3:
+            st.image(Image.open(f'pics/interface_face/{c3[i-1]}.jpg'), width=150)
+            options[i-1]=st.checkbox(f'Like?', key=f"{c3[i-3]}")
+        with col4:
+            # for i in c4:
+            st.image(Image.open(f'pics/interface_face/{c4[i-1]}.jpg'), width=150)
+            options[i-1]=st.checkbox(f'Like?', key=f"{c4[i-4]}")
     with col2:
-        for i in c2:
-            st.image(Image.open(f'pics/interface_face/{i}.jpg'), width=200)
-            options[i-1]=st.checkbox(f'Like?', key=f"{i}")
-    with col3:
-        for i in c3:
-            st.image(Image.open(f'pics/interface_face/{i}.jpg'), width=200)
-            options[i-1]=st.checkbox(f'Like?', key=f"{i}")
+            # for i in c4:
+            st.image(Image.open(f'pics/interface_face/52.jpg'), width=150)
+            options[i-1]=st.checkbox(f'Like?', key="52")
         
     submitted = st.form_submit_button("Submit")
 
@@ -111,20 +127,10 @@ if uploaded_file is not None:
     print(results)
     print(face_landmarks_list)
     i=0
-    first_in=results.index(sorted(results)[-1])
-    snd_in=results.index(sorted(results)[-2])
-    third_in=results.index(sorted(results)[-3])
-    for i in range(0,len(face_landmarks_list)):
-        result =results[i]
-        if i==first_in:
+    if len(results)==1:
+        if results>=0.5:
             color='green'
-            txt="#1 MATCH!"
-        elif i==snd_in:
-            color='green'
-            txt="#2 MATCH"
-        elif i==third_in:
-            color='green'
-            txt="#3 MATCH"
+            txt="MATCH!"
         else:
             color='red'
             txt="not match..."
@@ -139,7 +145,61 @@ if uploaded_file is not None:
         osd,
         box=(a, b, osd.size[0] + a, osd.size[1] + b),
         mask=Image.new("L", osd.size, 192))
-        i+=1
+    elif len(results)<5:
+        first_in=results.index(sorted(results)[-1])
+        for i in range(0,len(face_landmarks_list)):
+            result =results[i]
+            if i==first_in:
+                color='green'
+                txt="#1 MATCH!"
+            elif results>=0.5:
+                color='green'
+                txt="MATCH"
+            else:
+                color='red'
+                txt="not match..."
+            osd = Image.new("RGB", (100,25), color)
+            dctx = ImageDraw.Draw(osd)  # create drawing context
+            dctx.text((10, 5), txt,  fill="black") 
+            x=face_landmarks_list[i]['left_eyebrow'] 
+            (a,b)=[sum(y) / len(y) for y in zip(*x)]
+            a=int(a)
+            b=int(b)-25
+            pil_image.paste(
+            osd,
+            box=(a, b, osd.size[0] + a, osd.size[1] + b),
+            mask=Image.new("L", osd.size, 192))
+            i+=1
+    else:             
+        first_in=results.index(sorted(results)[-1])
+        snd_in=results.index(sorted(results)[-2])
+        third_in=results.index(sorted(results)[-3])
+        for i in range(0,len(face_landmarks_list)):
+            result =results[i]
+            if i==first_in:
+                color='green'
+                txt="#1 MATCH!"
+            elif i==snd_in:
+                color='green'
+                txt="#2 MATCH"
+            elif i==third_in:
+                color='green'
+                txt="#3 MATCH"
+            else:
+                color='red'
+                txt="not match..."
+            osd = Image.new("RGB", (100,25), color)
+            dctx = ImageDraw.Draw(osd)  # create drawing context
+            dctx.text((10, 5), txt,  fill="black") 
+            x=face_landmarks_list[i]['left_eyebrow'] 
+            (a,b)=[sum(y) / len(y) for y in zip(*x)]
+            a=int(a)
+            b=int(b)-25
+            pil_image.paste(
+            osd,
+            box=(a, b, osd.size[0] + a, osd.size[1] + b),
+            mask=Image.new("L", osd.size, 192))
+            i+=1
     st.image(pil_image)
     
 # else:
