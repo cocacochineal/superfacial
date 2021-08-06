@@ -64,7 +64,7 @@ if submitted:
     st.title('Now, you match...')
 
 if st.button('Your Le Wagon Match'):
-        st.balloons()
+        
         #url = 'http://localhost:8005/wagon'
         url='http://139.198.164.210:5000/wagon/'
         # make sure requests is using the correct method: post or get
@@ -108,6 +108,7 @@ if st.button('Your Le Wagon Match'):
             mask=Image.new("L", osd.size, 192))
             i+=1
         st.image(pil_image)
+        st.balloons()
     
 
 uploaded_file = st.file_uploader("Predict on your own chosen image")
@@ -128,7 +129,7 @@ if uploaded_file is not None:
     print(face_landmarks_list)
     i=0
     if len(results)==1:
-        if results>=0.5:
+        if results[0]>=0.5:
             color='green'
             txt="MATCH!"
         else:
