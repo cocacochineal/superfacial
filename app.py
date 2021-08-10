@@ -56,7 +56,7 @@ if submitted:
     #st.write(options)
     params={'options_': list(options)}
     #params=json.dumps({'options_': list(options)})
-    url='http://139.198.164.210:5000/form/'
+    url='http://139.198.183.85:5000/form/'
     #url = 'http://localhost:8005/form'
     #st.write(requests.get(url))
     form_submit= requests.post(url, data=params).json()
@@ -66,7 +66,7 @@ if submitted:
 if st.button('Your Le Wagon Match'):
         
     #url = 'http://localhost:8005/wagon'
-    url='http://139.198.164.210:5000/wagon/'
+    url='http://139.198.183.85:5000/wagon/'
     # make sure requests is using the correct method: post or get
     prediction = requests.get(url).json()      
     #st.write(prediction) 
@@ -117,7 +117,7 @@ if uploaded_file is not None:
     image = uploaded_file.read()
     params = {'image': image}
     #url = 'http://localhost:8005/image'
-    url='http://139.198.164.210:5000/image/'
+    url='139.198.183.85:5000/image/'
     # make sure requests is using the correct method: post or get
     prediction = requests.post(url, files=params).json()      
     #st.write(prediction) 
