@@ -117,7 +117,7 @@ if uploaded_file is not None:
     image = uploaded_file.read()
     params = {'image': image}
     #url = 'http://localhost:8005/image'
-    url='139.198.183.85:5000/image/'
+    url='http://139.198.183.85:5000/image/'
     # make sure requests is using the correct method: post or get
     prediction = requests.post(url, files=params).json()      
     #st.write(prediction) 
