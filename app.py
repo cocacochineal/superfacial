@@ -3,31 +3,42 @@ import numpy as np
 import app2
 import requests
 import json
+import streamlit.components.v1 as stc
+from streamlit_elements import elements, mui, html
 
 from PIL import Image, ImageDraw, ImageFont
-    
-st.markdown('# Choose 10 faces you like (please be **superfacial**!) :heart_eyes:')
+
+
+
+st.markdown(
+    """
+    <style>
+        .css-1rhbuit-multiSelect {
+            width: 10000px;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+
+st.markdown('# 请选出你感兴趣的面孔！！！！')
 with st.form("my_form"):
-    
-    col1, col2, col3, = st.beta_columns(3)
+    col1, col2, col3, col4 = st.columns(4)
     options=np.zeros(52)
     c1=[]
     c2=[]
     c3=[]
-    
+    c4=[]
+  
     for i in range(1, 52):
-        if(i%3==0):
-            c1.append(i-2)
-            c2.append(i-1)
-            c3.append(i)
-            # c4.append(i)
-    # for i in range(1, 13):
-    #     # if(i%4==0):
-    #     #     c1.append(i-3)
-    #     #     c2.append(i-2)
-    #     #     c3.append(i-1)
-    #     #     c4.append(i)
-    c3.append(52)
+        if(i%4==0):
+            c1.append(i-3)
+            c2.append(i-2)
+            c3.append(i-1)
+            c4.append(i)
+
+
     with col1:
         for i in c1:
             st.image(Image.open(f'pics/interface_face/{i}.jpg'), width=150)
@@ -40,16 +51,13 @@ with st.form("my_form"):
         for i in c3:
             st.image(Image.open(f'pics/interface_face/{i}.jpg'), width=150)
             options[i-1]=st.checkbox(f'Like?', key=f"{i}")
-        # with col4:
-        #     # for i in c4:
-        #     st.image(Image.open(f'pics/interface_face/{c4[i-1]}.jpg'), width=150)
-        #     options[i-1]=st.checkbox(f'Like?', key=f"{c4[i-4]}")
-    # with col2:
-    #         # for i in c4:
-    #         st.image(Image.open(f'pics/interface_face/52.jpg'), width=150)
-    #         options[i-1]=st.checkbox(f'Like?', key="52")
-        
-    submitted = st.form_submit_button("Submit")
+    with col4:
+        for i in c4:
+            st.image(Image.open(f'pics/interface_face/{i}.jpg'), width=150)
+            options[i-1]=st.checkbox(f'Like?', key=f"{i}")
+    
+    submitted = st.form_submit_button("选好了")
+    
 
 if submitted:
     # prediction = requests.post(url, files=params).json()
@@ -61,15 +69,12 @@ if submitted:
     #st.write(requests.get(url))
     form_submit= requests.post(url, data=params).json()
     # st.write(form_submit)
-    st.title('Now, you match...')
-
-if st.button('Your Le Wagon Match'):
-        
+    
     url = 'http://localhost:8000/wagon'
     # url='http://139.198.183.85:5000/wagon/'
     # make sure requests is using the correct method: post or get
     prediction = requests.get(url).json()      
-    st.write(prediction) 
+    # st.write(prediction) 
     pil_image=Image.open('wagon.jpeg')
     d = ImageDraw.Draw(pil_image)
     #st.write(prediction)
