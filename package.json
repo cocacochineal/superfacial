@@ -1,0 +1,22 @@
+{
+  "name": "superfacial",
+  "version": "1.0.0",
+  "description": "- Document here the project: superfacial\r - Description: Project Description\r - Data Source:\r - Type of analysis:",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shan-gao-qd/superfacial.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shan-gao-qd/superfacial/issues"
+  },
+  "homepage": "https://github.com/shan-gao-qd/superfacial#readme"
+}
